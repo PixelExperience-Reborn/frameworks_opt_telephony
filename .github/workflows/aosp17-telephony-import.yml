@@ -1,0 +1,68 @@
+name: Import pinned official AOSP17 telephony tree
+
+on:
+  push:
+    branches:
+      - port/a17-telephony-import-20261104
+    paths:
+      - .github/workflows/aosp17-telephony-import.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: aosp17-telephony-import
+  cancel-in-progress: false
+
+jobs:
+  import-exact-tree:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      SOURCE_SHA: aef289516bea6118d88cd45c63742cd4abe2c596
+      SOURCE_TREE: 84cdeedb201966bab5b28548a92b5e5e814c34bf
+      TARGET_BRANCH: port/a17-telephony-aosp17-base-20261104
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Fetch and authenticate official Android17 release source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/aosp-telephony"
+          cd "$RUNNER_TEMP/aosp-telephony"
+          git init -q
+          git remote add aosp https://android.googlesource.com/platform/frameworks/opt/telephony
+          git -c protocol.version=2 fetch --no-tags --depth=1 --filter=blob:none \
+            aosp refs/tags/android-17.0.0_r1
+          test "$(git rev-parse 'FETCH_HEAD^{commit}')" = "$SOURCE_SHA"
+          test "$(git rev-parse 'FETCH_HEAD^{tree}')" = "$SOURCE_TREE"
+          git cat-file -e "$SOURCE_TREE^{tree}"
+          echo "PASS: exact upstream AOSP17 telephony commit $SOURCE_SHA, tree $SOURCE_TREE"
+      - name: Publish immutable exact-source snapshot without rewriting the old PE branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/aosp-telephony"
+          git remote add publish "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          ref="refs/heads/$TARGET_BRANCH"
+          existing="$(git ls-remote --heads publish "$ref" | cut -f1)"
+          if [ -n "$existing" ]; then
+            git -c protocol.version=2 fetch --no-tags --depth=1 --filter=blob:none publish "$ref"
+            test "$(git rev-parse 'FETCH_HEAD^{tree}')" = "$SOURCE_TREE" || {
+              echo "Target branch contains a different tree; refusing overwrite"
+              exit 1
+            }
+            echo "PASS: published source already matches official AOSP17 tree"
+            exit 0
+          fi
+          export GIT_AUTHOR_NAME="PixelExperience-Reborn CI"
+          export GIT_AUTHOR_EMAIL="41898282+github-actions[bot]@users.noreply.github.com"
+          export GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
+          export GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
+          snapshot="$(printf 'telephony: exact AOSP17 r1 source-tree snapshot\n\nOriginal AOSP commit: %s\nOfficial Git tree: %s\nThis root snapshot does not preserve upstream Git ancestry.\nNo old PE IMS or modem compatibility patch is carried.\n' \
+            "$SOURCE_SHA" "$SOURCE_TREE" | git commit-tree "$SOURCE_TREE")"
+          test "$(git rev-parse "$snapshot^{tree}")" = "$SOURCE_TREE"
+          git -c protocol.version=2 push --no-thin publish "$snapshot:$ref"
+          test "$(git ls-remote --heads publish "$ref" | cut -f1)" = "$snapshot"
+          echo "PASS: published telephony AOSP17 source $snapshot"
