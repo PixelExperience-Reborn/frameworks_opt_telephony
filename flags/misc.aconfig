@@ -1,0 +1,96 @@
+package: "com.android.internal.telephony.flags"
+container: "system"
+
+# OWNER=tnd TARGET=24Q1
+flag {
+  name: "log_mms_sms_database_access_info"
+  namespace: "telephony"
+  description: "Whether to log MMS/SMS database access info and report anomaly when getting exception."
+  bug: "275225402"
+}
+
+# OWNER=tjstuart TARGET=24Q3
+flag {
+  name: "stop_spamming_emergency_notification"
+  namespace: "telephony"
+  description: "When set, the no wifi emergency calling availability notif will have a do not ask again button"
+  bug: "275225402"
+}
+
+# OWNER=avinashmp TARGET=24Q3
+flag {
+  name: "enable_wps_check_api_flag"
+  is_exported: true
+  namespace: "telephony"
+  description: "Enable system api isWpsCallNumber. Its an utility api to check if the dialed number is for Wireless Priority Service call."
+  bug: "304272356"
+}
+
+# OWNER=rambowang TARGET=24Q3
+flag {
+    name: "reset_mobile_network_settings"
+    is_exported: true
+    namespace: "telephony"
+    description: "Allows applications to launch Reset Mobile Network Settings page in Settings app."
+    bug:"271921464"
+}
+
+# OWNER=jackyu TARGET=25Q2
+flag {
+    name: "power_down_race_fix"
+    namespace: "telephony"
+    description: "Fixed race condition while powering down"
+    bug:"378616116"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+# OWNER=hyeinyu TARGET=25Q4
+flag {
+    name: "enable_phone_number_parsing_api"
+    namespace: "telephony"
+    description: "Enable phone number parsing api"
+    bug:"412560144"
+    is_exported: true
+}
+
+
+# OWNER=jackyu TARGET=26Q2
+flag {
+    name: "delete_cdma"
+    namespace: "telephony"
+    description: "Remove CDMA code from the telephony code base"
+    bug: "435270591"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+# OWNER=hyeinyu TARGET=26Q2
+flag {
+    name: "get_phone_number_ts43_api"
+    namespace: "telephony"
+    description: "Get phone number from TS43 source"
+    bug:"435429723"
+    is_exported: true
+}
+
+# OWNER=arunrajms TARGET=26Q3
+flag {
+    name: "mcc_mnc_locale_resolution"
+    namespace: "telephony"
+    description: "Enable locale resolution based on both MCC and MNC."
+    bug: "395813374"
+}
+
+# OWNER=arunvoddu TARGET=26Q3
+flag {
+    name: "offload_startup_binder_calls"
+    namespace: "telephony"
+    description: "Offload synchronous binder calls during startup to background threads to avoid ANR."
+    bug: "434431577"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}

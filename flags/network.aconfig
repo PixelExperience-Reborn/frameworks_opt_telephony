@@ -1,0 +1,100 @@
+package: "com.android.internal.telephony.flags"
+container: "system"
+
+# OWNER=songferngwang TARGET=24Q3
+flag {
+  name: "hide_prefer_3g_item"
+  is_exported: true
+  namespace: "telephony"
+  description: "Used in the Preferred Network Types menu to determine if the 3G option is displayed."
+  bug: "310639009"
+}
+
+# OWNER=nharold TARGET=24Q3
+flag {
+  name: "network_registration_info_reject_cause"
+  is_exported: true
+  namespace: "telephony"
+  description: "Elevate NRI#getRejectCause from System to Public"
+  bug: "239730435"
+}
+
+# OWNER=yomna TARGET=25Q4
+flag {
+    name: "vendor_specific_cellular_identifier_disclosure_indications"
+    is_exported: true
+    namespace: "telephony"
+    description: "Guard system API for vendor-specific classifications of cellular ID disclosures"
+    bug: "385338654"
+}
+
+# OWNER=yongnamcha TARGET=26Q2
+flag {
+    name: "cell_identity_for_barring_info"
+    is_exported: true
+    namespace: "telephony"
+    description: "Allows access to the CellIdentity for BarringInfo."
+    bug: "431881770"
+    metadata {
+        purpose: PURPOSE_FEATURE
+    }
+}
+
+# OWNER=jhyoon TARGET=26Q2
+flag {
+    name: "get_service_state_for_slot"
+    namespace: "telephony"
+    description: "Allows access to API that get service state for slot."
+    bug:"440943082"
+    metadata {
+        purpose: PURPOSE_FEATURE
+    }
+    is_exported: true
+}
+
+# OWNER=braydenhass TARGET=26Q2
+flag {
+    name: "network_security_event_indications"
+    is_exported: true
+    namespace: "telephony"
+    description: "Guard system API for network security events"
+    bug: "411183432"
+    metadata {
+        purpose: PURPOSE_FEATURE
+    }
+}
+
+# OWNER=yomna TARGET=26Q2
+flag {
+    name: "key_carrier_2g_toggle"
+    namespace: "telephony"
+    description: "Guard carrier key API KEY_CARRIER_DEFAULT_2G_PROTECTION_ENABLED_BOOL"
+    bug: "411183432"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+# OWNER=yomna TARGET=26Q2
+flag {
+    name: "drb_security_transparency"
+    is_exported: true
+    namespace: "telephony"
+    description: "Guard system API for DRB-specific security updates"
+    bug:"452486608"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+# OWNER=sanjeevmitt TARGET=26Q2
+flag {
+    name: "update_carrier_name_after_sim_ready"
+    namespace: "telephony"
+    description: "Ensure correct carrier name is displayed by waiting for SIM records and branding poll."
+    bug: "477934358"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+

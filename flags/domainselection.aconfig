@@ -1,0 +1,85 @@
+package: "com.android.internal.telephony.flags"
+container: "system"
+
+# OWNER=forestchoi TARGET=24Q3
+flag {
+    name: "use_aosp_domain_selection_service"
+    namespace: "telephony"
+    description: "This flag controls AOSP's domain selection service supported."
+    bug:"258112541"
+}
+
+# OWNER=forestchoi TARGET=24Q3
+flag {
+    name: "use_oem_domain_selection_service"
+    is_exported: true
+    namespace: "telephony"
+    description: "This flag controls OEMs' domain selection service supported."
+    bug:"258112541"
+}
+
+# OWNER=forestchoi TARGET=24Q3
+flag {
+    name: "domain_selection_metrics_enabled"
+    namespace: "telephony"
+    description: "This flag controls domain selection metrics."
+    bug:"258112541"
+}
+
+# OWNER=avinashmp TARGET=25Q1
+flag {
+    name: "add_ims_redial_codes_for_emergency_calls"
+    namespace: "telephony"
+    description: "This flag controls the addition of EMERGENCY_REDIAL_ON_IMS and EMERGENCY_REDIAL_ON_VOWIFI redial codes for normal routed emergency calls."
+    bug:"357980439"
+    is_exported: true
+}
+
+# OWNER=hwangoo TARGET=26Q2
+flag {
+    name: "domain_selection_emergency_mode_notification"
+    namespace: "telephony"
+    description: "Used to notify the emergency mode for call/SMS to other applications when AP domain selection is enabled."
+    bug:"423761083"
+    metadata {
+        purpose: PURPOSE_FEATURE
+    }
+}
+
+#OWNER=jaesikkong TARGET=26Q2
+flag {
+    name: "emergency_over_nr_requires_vonr_enabled"
+    namespace: "telephony"
+    description: "This flag specifies whether emergency call over NR requires VoNR setting enabled."
+    bug:"461166509"
+}
+
+#OWNER=hwangoo TARGET=26Q2
+flag {
+    name: "handle_second_emergency_call"
+    namespace: "telephony"
+    description: "Used to prevent the device from accidently exiting emergency mode when second emergency call is made when already emergency call is in progress."
+    bug:"472298557"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+# OWNER=kimjiny TARGET=26Q2
+flag {
+    name: "enable_emergency_sms_roaming_pdn_selection"
+    namespace: "telephony"
+    description: "This flag controls the PDN selection for sending emergency SMS while roaming."
+    bug:"461740128"
+}
+
+#OWNER=hwangoo TARGET=26Q3
+flag {
+    name: "enforce_emergency_exit_multi_call"
+    namespace: "telephony"
+    description: "Ensures emergency mode exit even when an emergency connection is not properly managed due to a second emergency call."
+    bug:"492062910"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}

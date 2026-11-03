@@ -1,0 +1,152 @@
+package: "com.android.internal.telephony.flags"
+container: "system"
+
+# Can not be removed until 26Q2 due to CTS test dependency.
+# OWNER=breadley TARGET=24Q3
+flag {
+  name: "simultaneous_calling_indications"
+  namespace: "telephony"
+  description: "APIs that are used to notify simultaneous calling changes to other applications."
+  bug: "297446980"
+  is_exported: true
+}
+
+# OWNER=tgunn TARGET=25Q2
+flag {
+    name: "robust_number_verification"
+    namespace: "telephony"
+    description: "Makes range matching more robust for TelephonyManager#requestNumberVerification"
+    bug:"400984263"
+    is_exported: true
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+# OWNER=grantmenke TARGET=25Q1
+flag {
+    name: "remap_disconnect_cause_sip_request_cancelled"
+    namespace: "telephony"
+    description: "Fix dialer UI bug by remapping disconnect CODE_SIP_REQUEST_CANCELLED to DisconnectCause.NORMAL"
+    bug: "351258918"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+    is_exported: true
+}
+
+# OWNER=yongnamcha TARGET=25Q2
+flag {
+    name: "emergency_callback_mode_notification"
+    namespace: "telephony"
+    description: "Used to notify the emergency callback mode for call/SMS to other applications."
+    bug:"359064059"
+    is_exported: true
+}
+
+# OWNER=sewookseo TARGET=25Q2
+flag {
+    name: "pass_copied_call_state_list"
+    namespace: "telephony"
+    description: "To prevent passing the TelephonyRegistry's original instance to listeners in the same process"
+    bug:"379126049"
+    is_exported: true
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+# OWNER=pmadapurmath TARGET=26Q2
+flag {
+    name: "support_auto_unhold"
+    namespace: "telephony"
+    description: "Add support for auto-unholing the bg call for remotely disconnected calls (based on carrier config key)"
+    bug:"439893979"
+    is_exported: true
+}
+
+# OWNER=yadavabhinav TARGET=26Q2
+flag {
+    name: "support_low_battery_alert"
+    namespace: "telephony"
+    description: "Add Add periodic low battery alert during voice call"
+    bug:"421990884"
+    is_exported: true
+}
+
+# OWNER=breadley TARGET=26Q1
+flag {
+    name: "ignore_incall_mmi_for_emergency"
+    namespace: "telephony"
+    description: "Do not process in-call MMI codes when there is an active emergency call."
+    bug:"444515076"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+# OWNER=tgunn TARGET=26Q1
+flag {
+    name: "initialize_telecom_account_registry_async"
+    namespace: "telephony"
+    description: "Move setup of telecom account registry out of the onCreate."
+    bug:"454329792"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+# OWNER=pmadapurmath TARGET=26Q2
+flag {
+    name: "fix_unhold_fg_call"
+    namespace: "telephony"
+    description: "Allow the fg to be unheld if it's unheld. Normally, we should always be performing this on the bg call but it's possible for states to reach a bad state due to race conditions."
+    bug:"469349595"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+# OWNER=pmadapurmath TARGET=26Q2
+flag {
+    name: "allow_multiple_incoming_for_dsda"
+    namespace: "telephony"
+    description: "Modify logic in CallManager to allow multiple ringing connections on different phones so that the call can be passed through to Telecom and be marked as a missed call."
+    bug:"484342500"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+# OWNER=tgunn TARGET=26Q2
+flag {
+    name: "rebuild_telecom_accounts_async"
+    namespace: "telephony"
+    description: "Move rebuilding of telecom accounts to a background thread to prevent ANRs."
+    bug: "471115015"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+# OWNER=breadley TARGET=26Q3
+flag {
+    name: "hide_default_outgoing_account_if_not_multiple"
+    namespace: "telephony"
+    description: "Hide the 'Make calls with' setting if there is only one or zero enabled phone accounts."
+    bug: "488181004"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
+
+# OWNER=breadley TARGET=26Q3
+flag {
+    name: "support_same_uri_conference_srvcc"
+    namespace: "telephony"
+    description: "Support SRVCC of an IMS conference with the participants having the same URI."
+    bug: "485088331"
+    metadata {
+        purpose: PURPOSE_BUGFIX
+    }
+}
